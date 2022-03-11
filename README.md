@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Quick Start 🚀
 Add a default.json file in config folder with the following
 {
@@ -66,3 +67,6 @@ Make any changes you need on your main branch and merge those into your producti
 git checkout production
 git merge main
 Once merged you can push to heroku as above and your site will rebuild and be updated.
+=======
+
+>>>>>>> a45b15e5942e9f0a63ca3c37a990370c9613131f
