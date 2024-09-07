@@ -14,6 +14,7 @@ import setAuthToken from './utils/setAuthToken';
 import './App.css';
 
 const App = () => {
+
   useEffect(() => {
     // check for token in LS
     if (localStorage.token) {
@@ -26,6 +27,8 @@ const App = () => {
       if (!localStorage.token) store.dispatch({ type: LOGOUT });
     });
   }, []);
+
+  
 
   return (
     <Provider store={store}>
