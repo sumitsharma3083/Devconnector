@@ -1,10 +1,27 @@
 import React, { Fragment, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { login } from '../../actions/auth';
+import {useDispatch, useSelector} from 'react-redux'
 
-const Login = ({ login, isAuthenticated }) => {
+import { login } from '../../actions/auth';
+import {login} from '../../store/slices/authSlice'
+
+
+import {
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT
+} from '../../store/slices/types';
+
+
+const Login = () => {
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+
+  
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -15,10 +32,13 @@ const Login = ({ login, isAuthenticated }) => {
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+
   const onSubmit = e => {
     e.preventDefault();
-    login(email, password);
+    dispatch(login({email,password}))
   };
+
+
 
   if (isAuthenticated) {
     return <Redirect to="/dashboard" />;
@@ -60,13 +80,5 @@ const Login = ({ login, isAuthenticated }) => {
   );
 };
 
-Login.propTypes = {
-  login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
-};
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
-});
-
-export default connect(mapStateToProps, { login })(Login);
+export default Login

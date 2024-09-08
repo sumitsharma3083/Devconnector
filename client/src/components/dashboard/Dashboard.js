@@ -7,15 +7,28 @@ import Experience from './Experience';
 import Education from './Education';
 import { getCurrentProfile, deleteAccount } from '../../actions/profile';
 
+import {useDispatch, useSelector} from 'react-redux'
+import { } from '../../store/slices/profileSlice'
+
 const Dashboard = ({
   getCurrentProfile,
   deleteAccount,
   auth: { user },
   profile: { profile }
 }) => {
+
+   const user = useSelector(state=> state.user)
+   const profile = useSelector(state=> state.profile)
+
+
+
   useEffect(() => {
     getCurrentProfile();
   }, [getCurrentProfile]);
+
+
+
+
 
   return (
     <Fragment>
@@ -47,6 +60,9 @@ const Dashboard = ({
       )}
     </Fragment>
   );
+
+
+
 };
 
 Dashboard.propTypes = {

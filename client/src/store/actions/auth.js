@@ -1,5 +1,6 @@
 import api from '../utils/api';
 import { setAlert } from './alert';
+
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -9,6 +10,8 @@ import {
   LOGIN_FAIL,
   LOGOUT
 } from './types';
+
+
 
 // Load User
 export const loadUser = () => async dispatch => {
@@ -49,6 +52,7 @@ export const register = formData => async dispatch => {
   }
 };
 
+
 // Login User
 export const login = (email, password) => async dispatch => {
   const body = { email, password };
@@ -74,6 +78,8 @@ export const login = (email, password) => async dispatch => {
     });
   }
 };
+
+
 
 // Logout
 export const logout = () => ({ type: LOGOUT });

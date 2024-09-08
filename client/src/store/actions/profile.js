@@ -12,6 +12,9 @@ import {
   NO_REPOS
 } from './types';
 
+
+
+
 // Get current users profile
 export const getCurrentProfile = () => async (dispatch) => {
   try {
@@ -28,6 +31,11 @@ export const getCurrentProfile = () => async (dispatch) => {
     });
   }
 };
+
+
+
+
+
 
 // Get all profiles
 export const getProfiles = () => async (dispatch) => {
@@ -48,6 +56,9 @@ export const getProfiles = () => async (dispatch) => {
   }
 };
 
+
+
+
 // Get profile by ID
 export const getProfileById = (userId) => async (dispatch) => {
   try {
@@ -64,6 +75,8 @@ export const getProfileById = (userId) => async (dispatch) => {
     });
   }
 };
+
+
 
 // Get Github repos
 export const getGithubRepos = (username) => async (dispatch) => {
@@ -111,6 +124,8 @@ export const createProfile = (formData, history, edit = false) => async (
     });
   }
 };
+
+
 
 // Add Experience
 export const addExperience = (formData, history) => async (dispatch) => {

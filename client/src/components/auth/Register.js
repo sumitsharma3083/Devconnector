@@ -1,11 +1,15 @@
 import React, { Fragment, useState } from 'react';
-import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { setAlert } from '../../actions/alert';
+import {useDispatch, useSelector} from 'react-redux'
+import {SET_ALERT , REMOVE_ALERT} from '../../store/slices/types'
+import {setAlert} from '../../store/slices/alertSlice'
 import { register } from '../../actions/auth';
-import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 
-const Register = ({ setAlert, register, isAuthenticated }) => {
+const Register = () => {
+  const dispatch = useDispatch(); 
+  const isAuthenticated = useSelector(state.auth.isAuthenticated)
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,12 +23,15 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
-    e.preventDefault();
-    if (password !== password2) {
-      setAlert('Passwords do not match', 'danger');
-    } else {
+     e.preventDefault();
+
+     if (password !== password2) {
+      const id = uuidv4();
+      dispatch(setAlert(SET_ALERT , {msg  : "Passwords do not match", type : "danger" , id}))
+      setTimeout(() => dispatch(setAlert(REMOVE_ALERT , {id})) ,5000);
+     } else {
       register({ name, email, password });
-    }
+     }
   };
 
   if (isAuthenticated) {
@@ -87,14 +94,8 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   );
 };
 
-Register.propTypes = {
-  setAlert: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
-};
+ 
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
-});
+ 
 
-export default connect(mapStateToProps, { setAlert, register })(Register);
+export default Register;
