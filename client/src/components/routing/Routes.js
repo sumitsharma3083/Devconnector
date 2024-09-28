@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes as MainRoutes } from 'react-router-dom';
 import Register from '../auth/Register';
 import Login from '../auth/Login';
 import Alert from '../layout/Alert';
@@ -18,7 +18,7 @@ const Routes = props => {
   return (
     <section className="container">
       <Alert />
-      <Switch>
+      <MainRoutes>
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/profiles" component={Profiles} />
@@ -31,7 +31,7 @@ const Routes = props => {
         <PrivateRoute exact path="/posts" component={Posts} />
         <PrivateRoute exact path="/posts/:id" component={Post} />
         <Route component={NotFound} />
-      </Switch>
+      </MainRoutes>
     </section>
   );
 };

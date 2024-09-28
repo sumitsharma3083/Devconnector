@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, redirect } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 
 const PrivateRoute = ({component : Component , path }) => {
@@ -12,13 +12,15 @@ const PrivateRoute = ({component : Component , path }) => {
      if(isAuthenticated){
         return (
           <Route 
-          exact 
+            exact 
             path={path}
             component={Component}
           />
         )
      }else{
-      return <Redirect to="/login"/>
+      return(
+        redirect("/login")
+      )
      }
 }
 

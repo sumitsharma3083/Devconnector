@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
 import {SET_ALERT , REMOVE_ALERT} from '../../store/slices/types'
 import {setAlert} from '../../store/slices/alertSlice'
-import { register } from '../../actions/auth';
+import { register } from '../../store/actions/auth'
 import { v4 as uuidv4 } from 'uuid';
 
 const Register = () => {
@@ -35,7 +35,7 @@ const Register = () => {
   };
 
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />;
+    redirect("/dashboard")
   }
 
   return (

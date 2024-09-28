@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
 
-import { login } from '../../actions/auth';
-import {login} from '../../store/slices/authSlice'
+import { login } from '../../store/actions/auth';
+// import {login} from '../../store/slices/authSlice'
 
 
 import {
@@ -41,7 +41,7 @@ const Login = () => {
 
 
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />;
+    redirect("/dashboard")
   }
 
   return (
