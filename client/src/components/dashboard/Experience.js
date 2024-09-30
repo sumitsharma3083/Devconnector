@@ -1,10 +1,17 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { deleteExperience } from '../../store/actions/profile';
+import { deleteExperience } from '../../store/slices/profileSlice';
 import formatDate from '../../utils/formatDate';
+import {useDispatch} from 'react-redux'
 
-const Experience = ({ experience, deleteExperience }) => {
+const Experience = ({ experience }) => {
+
+  const dispatch = useDispatch();
+
+   const deleteExp = (id)=>{
+      dispatch(deleteExperience(id))
+   }
+
+
   const experiences = experience.map((exp) => (
     <tr key={exp._id}>
       <td>{exp.company}</td>
@@ -14,7 +21,7 @@ const Experience = ({ experience, deleteExperience }) => {
       </td>
       <td>
         <button
-          onClick={() => deleteExperience(exp._id)}
+          onClick={() => deleteExp(exp._id)}
           className="btn btn-danger"
         >
           Delete
@@ -41,9 +48,5 @@ const Experience = ({ experience, deleteExperience }) => {
   );
 };
 
-Experience.propTypes = {
-  experience: PropTypes.array.isRequired,
-  deleteExperience: PropTypes.func.isRequired
-};
-
-export default connect(null, { deleteExperience })(Experience);
+ 
+export default Experience; 

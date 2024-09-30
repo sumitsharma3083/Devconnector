@@ -6,21 +6,28 @@ import Education from './Education';
 import { getCurrentProfile, deleteAccount } from '../../store/actions/profile';
 
 import {useDispatch, useSelector} from 'react-redux'
-import { } from '../../store/slices/profileSlice'
+import {getCurrentProfile,deleteaccount } from '../../store/slices/profileSlice'
+import {accountDelete} from '../../store/slices/authSlice'
 
 const Dashboard = () => {
-
+   const dispatch = useDispatch()
+   
    const user = useSelector(state=> state.user)
    const profile = useSelector(state=> state.profile)
 
 
 
   useEffect(() => {
-    getCurrentProfile();
-  }, [getCurrentProfile]);
+    dispatch(getCurrentProfile())
+  }, [dispatch]);
 
 
 
+
+  const deleteAccount = ()=>{
+      dispatch(deleteaccount())
+      dispatch(accountDelete())
+  }
 
 
   return (
@@ -33,6 +40,7 @@ const Dashboard = () => {
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
+          
           <Experience experience={profile.experience} />
           <Education education={profile.education} />
 

@@ -1,10 +1,17 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { deleteEducation } from '../../store/actions/profile';
 import formatDate from '../../utils/formatDate';
+import { deleteEducation } from '../../store/slices/profileSlice';
+import {useDispatch} from 'react-redux'
 
-const Education = ({ education, deleteEducation }) => {
+const Education = ({ education }) => {
+
+  const dispatch = useDispatch();
+  
+  const deleteEdu = (id)=>{
+       dispatch(deleteEducation(id))
+  }
+
+
   const educations = education.map((edu) => (
     <tr key={edu._id}>
       <td>{edu.school}</td>
@@ -14,7 +21,7 @@ const Education = ({ education, deleteEducation }) => {
       </td>
       <td>
         <button
-          onClick={() => deleteEducation(edu._id)}
+          onClick={() => deleteEdu(edu._id)}
           className="btn btn-danger"
         >
           Delete
@@ -22,6 +29,7 @@ const Education = ({ education, deleteEducation }) => {
       </td>
     </tr>
   ));
+
 
   return (
     <Fragment>
@@ -41,9 +49,5 @@ const Education = ({ education, deleteEducation }) => {
   );
 };
 
-Education.propTypes = {
-  education: PropTypes.array.isRequired,
-  deleteEducation: PropTypes.func.isRequired
-};
 
-export default connect(null, { deleteEducation })(Education);
+export default Education

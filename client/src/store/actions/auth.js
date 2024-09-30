@@ -1,5 +1,5 @@
-import api from '../utils/api';
-import { setAlert } from './alert';
+import api from '../../utils/api';
+ 
 
 import {
   REGISTER_SUCCESS,
@@ -66,6 +66,7 @@ export const login = (email, password) => async dispatch => {
     });
 
     dispatch(loadUser());
+    
   } catch (err) {
     const errors = err.response.data.errors;
 

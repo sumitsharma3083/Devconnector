@@ -2,8 +2,8 @@ import React, { Fragment, useState } from 'react';
 import { Link, redirect } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
 
-import { login } from '../../store/actions/auth';
-// import {login} from '../../store/slices/authSlice'
+// import { login } from '../../store/actions/auth';
+ import {login, loadUser} from '../../store/slices/authSlice'
 
 
 import {
@@ -36,6 +36,7 @@ const Login = () => {
   const onSubmit = e => {
     e.preventDefault();
     dispatch(login({email,password}))
+    dispatch(loadUser())
   };
 
 

@@ -12,8 +12,13 @@ const initialState = {
 
 export const login = createAsyncThunk("user/login",
   async (body)=>{
-     const response =  await api.post('/auth', body)
-     return response
+      try {
+        const response =  await api.post('/auth', body)
+        return response.data
+      } catch (error) {
+        return error
+      }
+     
   }
  )
 
@@ -21,7 +26,7 @@ export const login = createAsyncThunk("user/login",
  export const register = createAsyncThunk('user/register', 
  async (formData)=>{
   const response = await api.post('/users', formData);
-    return response
+    return response.data
  }
  )
 
@@ -50,6 +55,12 @@ const authSlice = createSlice({
         state.isAuthenticated = false,
         state.loading =  false,
         state.user=  null
+      }, 
+      accountDelete(state){
+        state.token = null,
+        state.isAuthenticated = false,
+        state.loading =  false,
+        state.user=  null
       }
      },
      extraReducers : (builder)=>{
@@ -61,7 +72,8 @@ const authSlice = createSlice({
       })
       builder.addCase(login.fulfilled , (state, {type,payload})=>{
         state.isAuthenticated = true,
-        state.loading = false
+        state.loading = false 
+        state.user = payload
       })
       builder.addCase(login.rejected , (state, {type,payload})=>{
         state.isAuthenticated = false
@@ -75,6 +87,7 @@ const authSlice = createSlice({
       builder.addCase(register.fulfilled , (state, {type,payload})=>{
         state.isAuthenticated = true 
         state.loading = false
+        state.user = payload
       })
       builder.addCase(register.rejected , (state, {type,payload})=>{
         state.isAuthenticated = false 
@@ -89,12 +102,11 @@ const authSlice = createSlice({
       builder.addCase(loadUser.fulfilled , (state, {payload})=>{
         state.loading = false
         state.isAuthenticated = true 
-        //TODO: state.user = payload
-        console.log(payload , "User data")
+        state.user = payload 
       })
 
      }
 })
 
-export const {logout} = authSlice.actions
+export const {logout , accountDelete} = authSlice.actions
 export default authSlice.reducer ; 

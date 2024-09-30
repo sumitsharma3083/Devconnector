@@ -1,5 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-
+import api from '../../utils/api'
 
 const initialState = {
     profile: null,
@@ -138,10 +138,29 @@ async function(){
 
 
 export const deleteEducation = createAsyncThunk("deleteeducation", 
-async function(){
+async function(id){
+  try {
+    const res = await api.delete(`/profile/education/${id}`);
+    return res.data
 
+    // dispatch({
+    //   type: UPDATE_PROFILE,
+    //   payload: res.data
+    // });
+
+    // dispatch(setAlert('Education Removed', 'success'));
+  } catch (error) {
+       return {msg: err.response.statusText, status: err.response.status}
+    // dispatch({
+    //   type: PROFILE_ERROR,
+    //   payload: { msg: err.response.statusText, status: err.response.status }
+    // });
+  }
+ 
 }
 )
+
+
 
 export const addExperience = createAsyncThunk("addexperience", 
 async function(){
@@ -151,15 +170,38 @@ async function(){
 
 
 export const deleteExperience = createAsyncThunk("deleteexperience", 
-async function(){
+async function(id){
+  try {
 
+     const response  =  await api.delete(`/profile/experience/${id}`) 
+     return response.data
+
+  } catch (error) {
+      return  { msg: error.response.statusText, status: error.response.status }
+  }
+  
 }
 )
 
 
 export const deleteaccount = createAsyncThunk("deleteaccount", 
 async function(){
-  
+  if(window.confirm("Are you sure ! This cannot be Undone ?")){
+    try {
+      await api.delete('/profile');
+
+      // dispatch({ type: CLEAR_PROFILE });
+      // dispatch({ type: ACCOUNT_DELETED });
+      // dispatch(setAlert('Your account has been permanently deleted'));
+
+    } catch (error) {
+         return {msg: err.response.statusText, status: err.response.status}
+      //  dispatch({
+      //   type: PROFILE_ERROR,
+      //   payload: { msg: err.response.statusText, status: err.response.status }
+      // });
+    }
+  }
 } 
 )
 
@@ -171,8 +213,64 @@ const profileSlice = createSlice({
   initialState : initialState ,
   reducers : {},
   extraReducers : (builder)=>{
-  
+    
+
+    builder.addCase(getCurrentProfile.pending , (state,{type,payload})=>{
+       state.loading = true 
+    })
+    builder.addCase(getCurrentProfile.fulfilled , (state,{type,payload})=>{
+          state.profile = payload 
+          state.loading = false 
+    })
+    builder.addCase(getCurrentProfile.rejected , (state,{type,payload})=>{
+      state.error = payload,
+      state.profile = null 
+      statse.loading = false 
+    })
+
+
+     builder.addCase(deleteaccount.pending , (state,{type,payload})=>{
+      state.loading = true 
+     })
+     builder.addCase(deleteaccount.fulfilled , (state,{type,payload})=>{
+         state.profile = null
+         state.repos = []   
+     })
+     builder.addCase(deleteaccount.rejected , (state,{type,payload})=>{
+          state.error = payload,
+          state.profile = null 
+          statse.loading = false 
+     })
+
+
+     builder.addCase(deleteEducation.pending , (state,{type,payload})=>{
+      state.loading = true 
+     })
+     builder.addCase(deleteEducation.fulfilled , (state,{type,payload})=>{
+         state.profile = payload
+         state.loading = false  
+     })
+     builder.addCase(deleteEducation.rejected , (state,{type,payload})=>{
+          state.error = payload,
+          state.profile = null 
+          statse.loading = false 
+     })
+
+     builder.addCase(deleteExperience.pending , (state,{type,payload})=>{
+      state.loading = true 
+     })
+     builder.addCase(deleteExperience.fulfilled , (state,{type,payload})=>{
+         state.profile = payload
+         state.loading = false  
+     })
+     builder.addCase(deleteExperience.rejected , (state,{type,payload})=>{
+          state.error = payload,
+          state.profile = null 
+          statse.loading = false 
+     })
+
+
   }
 })
 
-export default profileSlice 
+export default profileSlice.reducer

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { addComment } from '../../store/actions/post';
+// import { addComment } from '../../store/actions/post';
+import {addComment} from '../../store/slices/postSlice'
+import {useDispatch} from 'react-redux'
 
-const CommentForm = ({ postId, addComment }) => {
+const CommentForm = ({ postId }) => {
+  const dispatch = useDispatch();
   const [text, setText] = useState('');
 
   return (
@@ -15,7 +16,7 @@ const CommentForm = ({ postId, addComment }) => {
         className='form my-1'
         onSubmit={e => {
           e.preventDefault();
-          addComment(postId, { text });
+          dispatch(addComment(postId, { text }));
           setText('');
         }}
       >
@@ -33,12 +34,5 @@ const CommentForm = ({ postId, addComment }) => {
     </div>
   );
 };
-
-CommentForm.propTypes = {
-  addComment: PropTypes.func.isRequired
-};
-
-export default connect(
-  null,
-  { addComment }
-)(CommentForm);
+ 
+export default CommentForm; 

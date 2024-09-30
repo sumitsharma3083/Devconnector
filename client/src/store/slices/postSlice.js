@@ -53,12 +53,18 @@ async function(){
 
 
 export const addComment = createAsyncThunk("addcomment", 
-async function(){
-  
+async function(postId, formData){
+    try {
+        const res = await api.post(`/posts/comment/${postId}`, formData);
+        return res.data 
+    } catch (error) {
+        return  { msg: err.response.statusText, status: err.response.status }
+    }
+   
 }
 )
 
-export const deleteComent = createAsyncThunk("deletecomment", 
+export const deleteComment = createAsyncThunk("deletecomment", 
 async function(){
   
 }
@@ -73,7 +79,17 @@ const postSlice = createSlice({
     initialState : initialState,
     reducers: {},
     extraReducers : function (builder){
-     
+        builder.addCase(addComment.pending, (state,{type,payload})=>{
+           state.loading = true
+        })
+        builder.addCase(addComment.fulfilled , (state, {type,payload})=>{
+           state.post.comments = payload;
+           state.loading = false 
+        })
+        builder.addCase(addComment.rejected  , (state, {type,payload})=>{
+            state.error = payload
+            state.loading = false 
+        })
     }
 })
 

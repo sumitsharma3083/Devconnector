@@ -3,7 +3,7 @@ import { Link, redirect } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
 import {SET_ALERT , REMOVE_ALERT} from '../../store/slices/types'
 import {setAlert} from '../../store/slices/alertSlice'
-import { register } from '../../store/actions/auth'
+import { register, loadUser } from '../../store/slices/authSlice'
 import { v4 as uuidv4 } from 'uuid';
 
 const Register = () => {
@@ -30,7 +30,8 @@ const Register = () => {
       dispatch(setAlert(SET_ALERT , {msg  : "Passwords do not match", type : "danger" , id}))
       setTimeout(() => dispatch(setAlert(REMOVE_ALERT , {id})) ,5000);
      } else {
-      register({ name, email, password });
+      dispatch(register({ name, email, password }))
+      dispatch(loadUser())
      }
   };
 
